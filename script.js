@@ -1,16 +1,14 @@
 // DOM ELEMENT SELECTION
 const convertBtn = document.getElementById("convert-btn");
-const number = document.getElementById("number");
-const output = document.getElementById("output");
+const numberInput = document.getElementById("number");
+const outputMsg = document.getElementById("output");
 const resultDiv = document.getElementById("result-div");
 
-// Fuctionality to convert the user's input.
+// Fuctionality to validate the user's input and convert to Roman Numeral
 
 // No 1
-const checkInput = () => {
-  let inputInt = parseInt(number.value);
-
-  const romanNumeralKeys = {
+const convertInput = (inputNumber) => {
+  const romanNumeralValueKeys = {
     M: 1000,
     CM: 900,
     D: 500,
@@ -28,33 +26,37 @@ const checkInput = () => {
 
   let romanNumeral = "";
 
-  if (number.value === "") {
-    output.innerText = "Please enter a valid number";
-  } else if (inputInt <= 0) {
-    output.innerText = "Please enter a number greater than or equal to 1";
-  } else if (inputInt >= 4000) {
-    output.innerText = "Please enter a number less than or equal to 3999";
+  if (numberInput.value === "") {
+    outputMsg.innerText = "Please enter a valid number";
   } else {
-    for (const key in romanNumeralKeys) {
-      while (inputInt >= romanNumeralKeys[key]) {
-        romanNumeral += key;
-        inputInt -= romanNumeralKeys[key];
+    let userInput = parseInt(inputNumber);
+    if (userInput <= 0) {
+      outputMsg.innerText = "Please enter a number greater than or equal to 1";
+    } else if (userInput >= 4000) {
+      outputMsg.innerText = "Please enter a number less than or equal to 3999";
+    } else {
+      for (const key in romanNumeralValueKeys) {
+        while (userInput >= romanNumeralValueKeys[key]) {
+          romanNumeral += key;
+          userInput -= romanNumeralValueKeys[key];
+        }
       }
+      outputMsg.innerText = romanNumeral;
     }
-
-    output.innerText = romanNumeral;
   }
 
   resultDiv.classList.remove("hidden");
-  console.log(`Roman numeral for ${number.value} is -- ${romanNumeral}`);
+  console.log(`Roman numeral for ${numberInput.value} is -- ${romanNumeral}`);
 };
 
 // Implementation of convertButton functionality
-convertBtn.addEventListener("click", checkInput);
+convertBtn.addEventListener("click", () => {
+  convertInput(numberInput.value);
+});
 
 // Implementatiion of functionality to check user input value with the enter key.
-number.addEventListener("keydown", (e) => {
+numberInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    checkInput();
+    convertInput(numberInput.value);
   }
 });
