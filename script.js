@@ -4,10 +4,8 @@ const numberInput = document.getElementById("number");
 const outputMsg = document.getElementById("output");
 const resultDiv = document.getElementById("result-div");
 
-// Fuctionality to validate the user's input and convert to Roman Numeral
-
-// No 1
-const convertInput = (inputNumber) => {
+// Conversion to Roman Numeral Functionality.
+const romanConversion = (num) => {
   const romanNumeralValueKeys = {
     M: 1000,
     CM: 900,
@@ -26,43 +24,70 @@ const convertInput = (inputNumber) => {
 
   let romanNumeral = "";
 
-  if (numberInput.value === "" || numberInput.value.match(/[e.]/g)) {
-    outputMsg.innerText = "Please enter a valid number";
-    outputMsg.classList.add("alert");
-  } else {
-    let userInput = parseInt(inputNumber, 10);
-    // Adding the argument 10 indicates the base for parsing the integer.
-
-    if (userInput <= 0) {
-      outputMsg.innerText = "Please enter a number greater than or equal to 1";
-      outputMsg.classList.add("alert");
-    } else if (userInput >= 4000) {
-      outputMsg.innerText = "Please enter a number less than or equal to 3999";
-      outputMsg.classList.add("alert");
-    } else {
-      for (const key in romanNumeralValueKeys) {
-        while (userInput >= romanNumeralValueKeys[key]) {
-          romanNumeral += key;
-          userInput -= romanNumeralValueKeys[key];
-        }
-      }
-      outputMsg.innerText = romanNumeral;
-      outputMsg.classList.remove("alert");
+  for (const key in romanNumeralValueKeys) {
+    while (num >= romanNumeralValueKeys[key]) {
+      romanNumeral += key;
+      userInput -= romanNumeralValueKeys[key];
     }
   }
 
-  resultDiv.classList.remove("hidden");
-  console.log(`Roman numeral for ${numberInput.value} is -- ${romanNumeral}`);
+  return romanNumeral;
 };
 
-// Implementation of convertButton functionality
+// Validation of Input Functionality
+const validInput = (str, int) => {
+  let errorMsg = "";
+  const maxInputValue = 4000;
+  const maxRomanNumeral = 3999;
+
+  if (!str || str.match(/[e.]/g)) {
+    errorMsg = "Please enter a valid number";
+  } else if (int <= 0) {
+    errorMsg = "Please enter a number greater than or equal to 1";
+  } else if (int >= maxInputValue) {
+    errorMsg = `Please enter a number less than or equal to ${maxRomanNumeral}`;
+  } else {
+    // No errors detected
+    return true;
+  }
+
+  // Updates the UI based on the result of validation
+  outputMsg.innerText = errorMsg;
+  outputMsg.classList.add("error");
+
+  return false;
+};
+
+// Removal of Error Styling functionality.
+const removeError = () => {
+  outputMsg.innerText = "";
+  outputMsg.classList.remove("error");
+};
+
+// Handling user input functionality.
+const handleUserInput = () => {
+  const userInput = numberInput.value;
+  const intInput = parseInt(userInput, 10);
+
+  resultDiv.classList.remove("hidden");
+
+  // Removes the error class if it was previously added or present.
+  removeError();
+
+  if (validInput(userInput, intInput)) {
+    outputMsg.innerText = convertToRoman;
+  }
+};
+
+// ----- Event Triggers ------
+// Implementing convert button functionality
 convertBtn.addEventListener("click", () => {
-  convertInput(numberInput.value);
+  handleUserInput();
 });
 
-// Implementatiion of functionality to check user input value with the enter key.
+// Implementing use of Enter Key functionality
 numberInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    convertInput(numberInput.value);
+    handleUserInput();
   }
 });
