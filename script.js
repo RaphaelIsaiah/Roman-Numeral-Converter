@@ -26,14 +26,19 @@ const convertInput = (inputNumber) => {
 
   let romanNumeral = "";
 
-  if (numberInput.value === "") {
+  if (numberInput.value === "" || numberInput.value.match(/[e.]/g)) {
     outputMsg.innerText = "Please enter a valid number";
+    outputMsg.classList.add("alert");
   } else {
-    let userInput = parseInt(inputNumber);
+    let userInput = parseInt(inputNumber, 10);
+    // Adding the argument 10 indicates the base for parsing the integer.
+
     if (userInput <= 0) {
       outputMsg.innerText = "Please enter a number greater than or equal to 1";
+      outputMsg.classList.add("alert");
     } else if (userInput >= 4000) {
       outputMsg.innerText = "Please enter a number less than or equal to 3999";
+      outputMsg.classList.add("alert");
     } else {
       for (const key in romanNumeralValueKeys) {
         while (userInput >= romanNumeralValueKeys[key]) {
@@ -42,6 +47,7 @@ const convertInput = (inputNumber) => {
         }
       }
       outputMsg.innerText = romanNumeral;
+      outputMsg.classList.remove("alert");
     }
   }
 
