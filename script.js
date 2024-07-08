@@ -27,7 +27,7 @@ const romanConversion = (num) => {
   for (const key in romanNumeralValueKeys) {
     while (num >= romanNumeralValueKeys[key]) {
       romanNumeral += key;
-      userInput -= romanNumeralValueKeys[key];
+      num -= romanNumeralValueKeys[key];
     }
   }
 
@@ -75,7 +75,7 @@ const handleUserInput = () => {
   removeError();
 
   if (validInput(userInput, intInput)) {
-    outputMsg.innerText = convertToRoman;
+    outputMsg.innerText = romanConversion(intInput);
   }
 };
 

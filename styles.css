@@ -85,7 +85,7 @@ label {
   cursor: pointer;
   margin-top: 0.625rem;
   padding: 0.625rem;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   font-weight: bold;
   box-shadow: 1px 1px 4px 1px var(--color-1);
   transition: background-color 0.6s, color 0.6s;
